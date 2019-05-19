@@ -25,9 +25,16 @@ public class StudentController {
 		System.out.println("sList "+sList);
 		model.addAttribute("sList" ,sList );
 		return "StudentList";
-		
-		
 	}
+	
+	@RequestMapping(value="sList",method=RequestMethod.GET)
+	public String sList(Model model) {
+		List<Student> sList = studService.getStudentList();
+		System.out.println("sList "+sList);
+		model.addAttribute("sList" ,sList );
+		return "StudentList";
+	}
+	
 	@RequestMapping(value="saveStudent",method=RequestMethod.GET)
 	public String savePage() {
 		return "saveStudent";
