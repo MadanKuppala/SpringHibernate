@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+		
+   <!--  <http pattern="/styles/**" security="none" />
+    <http pattern="/css_1/**" security="none" />
+    <http pattern="/css/**" security="none" />
+    <http pattern="/scripts/**" security="none" />
+    <http pattern="/js/**" security="none" />
+    <http pattern="/js_1/**" security="none" />
+    <http pattern="/images/**" security="none" />
+    <http pattern="/assets/images/**" security="none" />
+    <http pattern="/assets/images/patterns/**" security="none" />
+    <http pattern="/assets/javascripts/**" security="none" />
+    <http pattern="/assets/stylesheets/**" security="none" />
+    <http pattern="/assets/vendor/**" security="none" />
+    <http pattern="/signIn.html" security="none" />
+    <http pattern="/fonts/**" security="none" />
+    <http pattern="/pmslaunch.html" security="none" />
+    <http pattern="/data1/**" security="none" />
+    <http pattern="/engine1/*" security="none" />
+    <http pattern="/pdf/*" security="none" />
+    <http pattern="/themes/*" security="none" /> -->
+    
+	<http use-expressions="true" auto-config="true" create-session="always" entry-point-ref="forwardingLoginUrlAuthenticationEntryPoint" >		
+		<intercept-url pattern="/admin/**" access="permitAll" />
+		<intercept-url pattern="/*.*" access="permitAll" />
+		<intercept-url pattern="/*.*" access="permitAll" />
+	    
+		<access-denied-handler error-page="/403" />
+		<form-login 
+		    login-page="/login" 
+		    default-target-url="/welcome" 
+			authentication-failure-url="/login?error" 
+			username-parameter="userid"
+			password-parameter="passwd" />
+		<logout logout-success-url="/login?logout"  />
+		<!-- enable csrf protection -->
+		 <!-- <csrf/> -->
+	</http>
+	
+	<!-- <beans:bean id="welcome" class="com.apdrp.mis.util.AuthenticationSuccessURLHandler"></beans:bean>-->
+	
+	<beans:bean id="forwardingLoginUrlAuthenticationEntryPoint" class="com.madan.hp.util.PMSLoginUrlAuthenticationEntryPoint">
+	    <beans:constructor-arg value="/welcome" />
+	</beans:bean> 
+ 
+	<authentication-manager erase-credentials="false">
+		 <authentication-provider ref="customAuthenticationProvider" />
+	</authentication-manager>	
+
+	<beans:bean id="customAuthenticationProvider" class="com.madan.hp.authController.AuthenticationController" />
+	
+	<context:component-scan base-package="com.*"/>
+
+</beans:beans>
